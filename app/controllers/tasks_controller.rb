@@ -19,7 +19,7 @@ before_action :set_task, only:[:show,:edit,:update,:destroy]
       flash[:success] = "タスクが正常に投稿されました"
       redirect_to @task
     else
-      flas.now[:danger] = "タスクが投稿されませんでした"
+      flash.now[:danger] = "タスクが投稿されませんでした"
       render :new
     end
   end
