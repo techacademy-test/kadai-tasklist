@@ -53,6 +53,6 @@ before_action :set_task, only:[:show,:edit,:update,:destroy]
   end
   
   def task_params
-    params.require(:task).permit(:content)
+    params.require(:task).permit(:content, :status)
   end
 end
