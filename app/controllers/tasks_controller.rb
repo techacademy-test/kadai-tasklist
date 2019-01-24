@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
   before_action :require_user_logged_in
-  before_action :correct_user, only: [:destroy]
+  before_action :correct_user, only: [:destroy, :edit, :update]
   
   def index
 
@@ -10,13 +10,13 @@ class TasksController < ApplicationController
     
     @task = current_user.tasks.build(task_params)
     
-    if @task.save
+    if logged_in? && @task.save
       flash[:success] = "タスクが正常に投稿されました"
       redirect_to root_url
     else
       @tasks = current_user.tasks.order("created_at DESC").page(params[:page])
       flash.now[:danger] = "タスクが投稿に失敗しました"
-      render "toppages/index"
+      render root_path
     end
   end
 
@@ -24,7 +24,13 @@ class TasksController < ApplicationController
   end
 
   def update
-
+    if @task.update(task_params)
+      flash[:success] = "タスクの更新に成功しました"
+      redirect_to root_url
+    else
+      flas.now[:danger] = "タスクの更新に失敗しました"
+      render root_path
+    end
   end
 
   def destroy
